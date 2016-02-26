@@ -1,0 +1,27 @@
+COMMON: &common
+  ADMIN_CREDENTIALS: 'admin,password'
+  MAX_CONTENT_LENGTH: 5324800
+  SECRET_KEY: insecure
+  SECURITY_POST_LOGIN_VIEW: '/profile'
+  SECURITY_TRACKABLE: True
+  SQLALCHEMY_DATABASE_URI: postgresql://postgres:password@192.168.0.10:5432/faas
+  THUMBNAIL_FOLDER: data/thumbnail
+  UPLOAD_FOLDER: data
+
+DEVELOPMENT: &development
+  <<: *common
+  DEBUG: True
+  SQLALCHEMY_DATABASE_URI: 'sqlite:////tmp/database.sqlite'
+
+PRODUCTION: &production
+  <<: *common
+  DEBUG: True
+  SECURITY_PASSWORD_HASH: bcrypt
+  JSONIFY_PRETTYPRINT_REGULAR: True
+
+TESTING: &testing
+  <<: *common
+  SERVER_NAME: 'locahost'
+  SQLALCHEMY_DATABASE_URI: 'sqlite:///:memory:'
+  TESTING: True
+
