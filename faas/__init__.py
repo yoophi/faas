@@ -5,6 +5,7 @@ import os
 from flask import Flask
 
 from flask.ext.config_helper import Config
+from flask.ext.bootstrap import Bootstrap
 from flask.ext.cors import CORS
 from flask.ext.login import LoginManager
 from flask.ext.oauthlib.provider import OAuth2Provider
@@ -20,6 +21,7 @@ login_manager.login_view = 'auth.login'
 config= Config()
 oauth = OAuth2Provider()
 cors = CORS()
+bootstrap = Bootstrap()
 
 def create_app(config_name):
     """
@@ -40,6 +42,7 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     oauth.init_app(app)
+    bootstrap.init_app(app)
 
     from .main import main as main_blueprint
 
