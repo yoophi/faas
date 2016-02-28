@@ -1,27 +1,16 @@
 import os
 import traceback
-
 import PIL
 import simplejson
 from PIL import Image
-from flask import current_app
+from flask import current_app, jsonify
 from flask import request, render_template, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
-
-# from lib.upload_file import uploadfile
 from faas.lib.upload_file import uploadfile
 from . import main
 
-# @main.route('/', methods=['GET', 'POST'])
-# def index():
-#     # return 'Hello, %s' % (current_user.email if hasattr(current_user, 'email') else 'world')
-#     return render_template('index.html')
-
 ALLOWED_EXTENSIONS = set(['txt', 'gif', 'png', 'jpg', 'jpeg', 'bmp', 'rar', 'zip', '7zip', 'doc', 'docx'])
 IGNORED_FILES = set(['.gitignore'])
-
-
-# bootstrap = Bootstrap(app)
 
 
 def allowed_file(filename):
@@ -102,7 +91,7 @@ def upload():
             file_saved = uploadfile(name=f, size=size)
             file_display.append(file_saved.get_file())
 
-        return simplejson.dumps({"files": file_display})
+        return jsonify({"files": file_display})
 
     return redirect(url_for('index'))
 
@@ -138,3 +127,8 @@ def get_file(filename):
 @main.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
+
+@main.route('/basic', methods=['GET', 'POST'])
+def basic():
+    return render_template('basic.html')
